@@ -1,0 +1,18 @@
+# Exclude binaries in data folders, 
+# keep:
+# * scripts (bash, csh, python, tcl),
+# * structures (psf),
+# * initial coord (pdb),
+# * namd config (.namd) 
+*
+*/
+!.gitignore
+!*.sh
+!*.csh
+!*.py
+!*.tcl
+!*.py
+!*.namd
+!*.psf
+!*.pdb
+!*.vmd

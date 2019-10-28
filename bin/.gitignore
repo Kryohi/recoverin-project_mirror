@@ -1,0 +1,8 @@
+# Exclude binaries in bin, keep scripts
+*
+*/
+!.gitignore
+!*.sh
+!*.csh
+!*.py
+!*.tcl
