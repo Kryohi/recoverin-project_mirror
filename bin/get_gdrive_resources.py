@@ -9,7 +9,26 @@ def download_extract(gdrive_res):
   base_id = 'https://drive.google.com/uc?id='
   gdown.download(base_id+gdrive_res.gdriveid, gdrive_res.tarname, quiet=False)
   with tarfile.open(gdrive_res.tarname) as tf:
-    tf.extractall()
+    def is_within_directory(directory, target):
+        
+        abs_directory = os.path.abspath(directory)
+        abs_target = os.path.abspath(target)
+    
+        prefix = os.path.commonprefix([abs_directory, abs_target])
+        
+        return prefix == abs_directory
+    
+    def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+    
+        for member in tar.getmembers():
+            member_path = os.path.join(path, member.name)
+            if not is_within_directory(path, member_path):
+                raise Exception("Attempted Path Traversal in Tar File")
+    
+        tar.extractall(path, members, numeric_owner=numeric_owner) 
+        
+    
+    safe_extract(tf)
 
 # Resources to download
 namd_multicore = GdriveResource('1nizBonV174ec_isZyVfQq-17jXUmGOFR','NAMD_2.13_Linux-x86_64-multicore.tar.gz')
